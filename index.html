@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>p5.js Web Example</title>
+  <style>
+    /* リセット & 基本設定 */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: sans-serif;
+    }
+
+    /* 画面上部固定ヘッダ */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 8px;
+      z-index: 999; /* ヘッダが上になるように */
+    }
+    /* 上部にあるボタンやロゴ等のバー */
+    .top-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .logo-box {
+      width: 40px;
+      height: 40px;
+      background: #ccc;
+      margin-right: 16px;
+    }
+    .close-btn, .video-btn {
+      font-weight: bold;
+      font-size: 1rem;
+      margin-left: 16px;
+      cursor: pointer;
+    }
+
+  /* p5.jsを埋め込むコンテナ */
+  #canvas-container {
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    margin: 0 auto; /* 中央揃え */
+    background: white; /* 背景を白に設定 */
+    display: flex;
+    justify-content: center; /* 横方向中央揃え */
+    align-items: center; /* 縦方向中央揃え */
+  }
+  /* キャンバスを縮小表示 */
+  #canvas-container canvas {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+    /* メインコンテンツ */
+    main {
+      padding-top: 140px; /* ヘッダとかぶらないよう余白を確保 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .card {
+      width: 90%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .img-box {
+      width: 50px;
+      height: 50px;
+      background: #ddd;
+      margin-right: 16px;
+    }
+    @media screen and (min-width: 600px) {
+      /* 画面幅が広い時、カードを並べるなど好きにレイアウトできます */
+      main {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .card {
+        margin: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ヘッダ -->
+  <header>
+    <div class="top-bar">
+      <div style="display: flex; align-items: center;">
+        <div class="logo-box"></div>
+        <strong>My NFT Site</strong>
+      </div>
+      <div style="display: flex; align-items: center;">
+        <div class="close-btn">X</div>
+        <div class="video-btn">▶</div>
+      </div>
+    </div>
+    <!-- p5.js キャンバスを配置するコンテナ -->
+    <div id="canvas-container"></div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <!-- fxhash -->
+    <div class="card">
+      <div class="img-box"></div>
+      <span>fxhash</span>
+    </div>
+    <!-- opensea -->
+    <div class="card">
+      <div class="img-box"></div>
+      <span>opensea</span>
+    </div>
+    <!-- PromptHero -->
+    <div class="card">
+      <div class="img-box"></div>
+      <span>PromptHero</span>
+    </div>
+  </main>
+
+  <!-- p5.js本体のCDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+
+  <!-- スケッチのスクリプト。HTML内に直接記述している例 -->
+  <script>
+  let points = []; // 点を格納する配列
+  let heights = []; // 各点の高さの履歴を保持
+  let rows = 10; // 行数
+  let cols = 10; // 列数
+  let spacing = 4; // 点の間隔
+
+  function setup() {
+    let canvas = createCanvas(60, 60, WEBGL);
+    // キャンバスを上部固定ヘッダ内の #canvas-container に配置する
+    canvas.parent('canvas-container');
+
+    // 点を平面上に配置
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        let x = (j - (cols - 1) / 2) * spacing; // x座標
+        let y = (i - (rows - 1) / 2) * spacing; // y座標
+        points.push(createVector(x, y, 0)); // 初期点を保存
+        heights.push(0); // 初期高さを保存
+      }
+    }
+  }
+
+  function draw() {
+    background(255); // 背景色
+
+    // カメラ操作（マウスで視点回転させる）
+    orbitControl();
+
+    // 平面を回転
+    rotateX(PI / 3);
+    rotateZ(frameCount * 0.004);
+
+    // 条件を計算
+    let condition = sin(frameCount * 0.02 + 1) * cos(frameCount * 0.02 + 1) > 0.4;
+
+    noFill();
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        let index = i * cols + j;
+
+        // 高さを更新（条件を満たす場合のみ変化）
+        if (condition) {
+          heights[index] =
+            noise(points[index].x * 0.1 + 1000,
+                  points[index].y * 0.1 + 1000,
+                  frameCount * 0.1) * 25 - 10;
+        }
+        let z = heights[index];
+
+        // zの高さに応じて色を設定
+        let colorValue = map(z, -100, 150, 0, 255);
+        let pointColor = color(colorValue, 100, 255 - colorValue);
+        let lineColor  = color(colorValue, 100, 255 - colorValue);
+
+        // 点を描画
+        let current = points[index];
+        strokeWeight(1);
+        point(current.x, current.y, z);
+
+        // 上の点と線を結ぶ
+        if (i > 0) {
+          let aboveIndex = (i - 1) * cols + j;
+          let above = points[aboveIndex];
+          let aboveZ = heights[aboveIndex];
+          strokeWeight(0.2);
+          line(current.x, current.y, z, above.x, above.y, aboveZ);
+        }
+        // 左の点と線を結ぶ
+        if (j > 0) {
+          let leftIndex = i * cols + (j - 1);
+          let left = points[leftIndex];
+          let leftZ = heights[leftIndex];
+          strokeWeight(0.2);
+          line(current.x, current.y, z, left.x, left.y, leftZ);
+        }
+      }
+    }
+  }
+  </script>
+
+</body>
+</html>
