@@ -1,3 +1,10 @@
+.img-box {
+  width: 50px; /* 親要素の幅 */
+  height: 50px; /* 親要素の高さ */
+  overflow: hidden; /* 親要素を超える画像部分を隠す */
+}
+
+
 .img-box img {
   width: 100%; /* 親要素に合わせて縮小 */
   height: 100%; /* 親要素に合わせて縮小 */
