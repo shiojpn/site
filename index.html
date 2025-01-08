@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <link rel="stylesheet" href="style.css">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>p5.js Web Example</title>
+  <title>Web Layout Example</title>
   <style>
-    /* リセット & 基本設定 */
+    /* Resetと基本設定 */
     * {
       box-sizing: border-box;
     }
@@ -14,194 +13,210 @@
       margin: 0;
       padding: 0;
       font-family: sans-serif;
+      background-color: #f8c828;
     }
 
-    /* 画面上部固定ヘッダ */
+    /* ヘッダー */
     header {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 8px;
-      z-index: 999; /* ヘッダが上になるように */
+      padding: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 999;
     }
-    
-
-  /* p5.jsを埋め込むコンテナ */
-  #canvas-container {
-    width: 60px;
-    height: 60px;
-    overflow: hidden;
-    margin: 0 auto; /* 中央揃え */
-    background: white; /* 背景を白に設定 */
-    display: flex;
-    justify-content: center; /* 横方向中央揃え */
-    align-items: center; /* 縦方向中央揃え */
-  }
-  /* キャンバスを縮小表示 */
-  #canvas-container canvas {
-    width: 60px !important;
-    height: 60px !important;
-  }
 
     /* メインコンテンツ */
     main {
-      padding-top: 140px; /* ヘッダとかぶらないよう余白を確保 */
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      max-width: 500px;
-      margin: 0 auto;
+      margin-top: 80px;
+      padding: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
-    .card {
-      width: 90%;
-      max-width: 400px;
-      border: 1px solid #ccc;
-      padding: 16px;
-      margin-bottom: 16px;
+
+    /* 各セクション */
+    .content-section {
+      margin-bottom: 20px;
+    }
+
+    /* リンクと画像の横並び設定 */
+    .content-link {
       display: flex;
       align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      text-decoration: none;
     }
-    .img-box {
+
+    /* リンクのテキストスタイル */
+    .content-link span {
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .content-link:hover span {
+      text-decoration: underline;
+    }
+
+    /* 画像のスタイル */
+    .content-link img {
       width: 50px;
       height: 50px;
-      background: #ddd;
-      margin-right: 16px;
+      object-fit: cover;
+      border-radius: 0px;
     }
-    @media screen and (min-width: 600px) {
-      /* 画面幅が広い時、カードを並べるなど好きにレイアウトできます */
-      main {
+
+    /* 説明文 */
+    .content-description {
+      font-size: 0.8em;
+      color: #007e5d;
+    }
+
+    /* p5.js コンテナ */
+    #canvas-container {
+      width: 60px;
+      height: 60px;
+      overflow: hidden;
+      margin: 0 auto 20px auto;
+      background: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #canvas-container canvas {
+      width: 60px !important;
+      height: 60px !important;
+    }
+
+    /* スマホ向け調整 */
+    @media (max-width: 480px) {
+      .content-link {
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .card {
-        margin: 8px;
+        align-items: flex-start;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ヘッダ -->
-  <header>
-    <!-- p5.js キャンバスを配置するコンテナ -->
-    <div id="canvas-container"></div>
-  </header>
+<main>
+  <!-- p5.js container -->
+  <div id="canvas-container"></div>
 
-  <!-- メインコンテンツ -->
-  <main>
-    <!-- fxhash -->
-    <div class="card">
-      <div class="img-box">
-          <img src="images/IMG_8394.PNG">
-      </div>
+  <!-- OpenSea Section -->
+  <div class="content-section">
+    <a href="https://opensea.io" target="_blank" class="content-link">
+      <span>OpenSea</span>
+      <img src="images/IMG_7942AAAA0607-1.jpeg" alt="OpenSea">
+      <img src="images/m1_g.GIF" alt="OpenSea">
+      <img src="images/cg_0013_3.PNG" alt="OpenSea">
+      <img src="images/cg_0003_1.PNG" alt="OpenSea">
+      <img src="images/cg_0003.PNG" alt="OpenSea">
+      <img src="images/cg_0005.PNG" alt="OpenSea">
+
+    </a>
+    <div class="content-description">
+      Digital Art as NFT. Simple and sophisticated art. NFTとしてのデジタルアート.シンプルで洗練されたアート. 作为 NFT 的数字艺术.简单而精致的艺术. Arte digital como NFT. Arte sencillo y sofisticado. NFT로서의 디지털 아트. 단순하고 정교한 아트
+        </div>
+  </div>
+
+  <!-- fxhash Section -->
+  <div class="content-section">
+    <a href="https://fxhash.xyz" target="_blank" class="content-link">
       <span>fxhash</span>
-    </div>
-    <!-- opensea -->
-    <div class="card">
-      <div class="img-box">
-          <img src="images/IMG_7942AAAA0607-1.jpeg">
-      </div>
-      <span>opensea</span>
-    </div>
-    <!-- PromptHero -->
-    <div class="card">
-      <div class="img-box">
-          <img src="images/DALL·E 2024-05-28 23.52.36 - A cat that is vintage Looney Tunes style, sword in the cat's left hand, sharp eyes, drawing the whole body, black and white because this is manga, car 2.jpg">
-      </div>
-      <span>PromptHero</span>
-    </div>
-  </main>
+      <img src="images/IMG_8394.PNG" alt="fxhash">
+      <img src="images/box.gif" alt="fxhash">
+      <img src="images/myCanvas (2) 2.PNG" alt="fxhash">
+      <img src="images/bunpu (1).gif" alt="fxhash">
+    </a>
+    <div class="content-description">
+      Generative art painted in program code. プログラムコードで描かれたジェネラティブアート. 用程序代码绘制的生成艺术. Arte generativo pintado en código de programa. 프로그램 코드로 그린 제너레이티브 아트.
+        </div>
+  </div>
 
-  <!-- p5.js本体のCDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <!-- Note Section -->
+  <div class="content-section">
+    <a href="https://note.com" target="_blank" class="content-link">
+      <span>Note</span>
+      <img src="images/DALL·E 2024-05-28 23.52.36 - A cat that is vintage Looney Tunes style, sword in the cat's left hand, sharp eyes, drawing the whole body, black and white because this is manga, car 2.jpg" alt="Note"> 
+      <img src="images/20250109_0248_Neon Reflections_simple_compose_01jh3gg5qpfsdbf748569c7w61.GIF" alt="fxhash">
+      <img src="images/DALL·E 2024-05-30 01.04.44 - A ten-year-old girl stands with her arms crossed, standing on a huge and rugged rock, the rock is floating in the air. A young woman wearing a red and 2.WEBP" alt="fxhash">
+      <img src="images/DALL·E 2024-06-10 02.40.46 - Overhead view of the entire Shibuya scramble crossing, shot from high in the sky, in a neo-city setting. The atmosphere is dark and terrifying, with h 2.WEBP" alt="fxhash">
+      <img src="images/DALL·E 2024-05-29 02.19.26 - A 36-year-old Japanese male of medium build with skin showing signs of age, wearing a thick crewneck sweatshirt and shorts. He is sitting on a chair h 3.WEBP" alt="fxhash">
 
-  <!-- スケッチのスクリプト。HTML内に直接記述している例 -->
-  <script>
-  let points = []; // 点を格納する配列
-  let heights = []; // 各点の高さの履歴を保持
-  let rows = 10; // 行数
-  let cols = 10; // 列数
-  let spacing = 4; // 点の間隔
+    </a>
+    <div class="content-description">
+      Images and movies generated using DALL-E, Sora. DALL-E,Soraを用いて生成した画像や動画. 使用 DALL-E、Sora 生成的图像和影片. Imágenes y películas generadas con DALL-E, Sora. DALL-E, Sora를 사용하여 생성된 이미지 및 동영상
+        </div>
+  </div>
+</main>
 
-  function setup() {
-    let canvas = createCanvas(60, 60, WEBGL);
-    // キャンバスを上部固定ヘッダ内の #canvas-container に配置する
-    canvas.parent('canvas-container');
+<!-- p5.js main library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+<script>
+let points = [];
+let heights = [];
+let rows = 10;
+let cols = 10;
+let spacing = 4;
 
-    // 点を平面上に配置
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        let x = (j - (cols - 1) / 2) * spacing; // x座標
-        let y = (i - (rows - 1) / 2) * spacing; // y座標
-        points.push(createVector(x, y, 0)); // 初期点を保存
-        heights.push(0); // 初期高さを保存
+function setup() {
+  let canvas = createCanvas(60, 60, WEBGL);
+  canvas.parent('canvas-container');
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let x = (j - (cols - 1) / 2) * spacing; 
+      let y = (i - (rows - 1) / 2) * spacing; 
+      points.push(createVector(x, y, 0)); 
+      heights.push(0); 
+    }
+  }
+}
+
+function draw() {
+  background('#f8c828');
+  orbitControl();
+  rotateX(PI / 3);
+  rotateZ(frameCount * 0.004);
+
+  let condition = sin(frameCount * 0.02 + 1) * cos(frameCount * 0.02 + 1) > 0.4;
+
+  noFill();
+  stroke('#007e5d');
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let index = i * cols + j;
+      if (condition) {
+        heights[index] =
+          noise(points[index].x * 0.1 + 1000,
+                points[index].y * 0.1 + 1000,
+                frameCount * 0.1) * 25 - 10;
+      }
+      let z = heights[index];
+      strokeWeight(1);
+      point(points[index].x, points[index].y, z);
+
+      if (i > 0) {
+        let aboveIndex = (i - 1) * cols + j;
+        strokeWeight(0.2);
+        line(points[index].x, points[index].y, z,
+             points[aboveIndex].x, points[aboveIndex].y, heights[aboveIndex]);
+      }
+      if (j > 0) {
+        let leftIndex = i * cols + (j - 1);
+        strokeWeight(0.2);
+        line(points[index].x, points[index].y, z,
+             points[leftIndex].x, points[leftIndex].y, heights[leftIndex]);
       }
     }
   }
-
-  function draw() {
-    background(255); // 背景色
-
-    // カメラ操作（マウスで視点回転させる）
-    orbitControl();
-
-    // 平面を回転
-    rotateX(PI / 3);
-    rotateZ(frameCount * 0.004);
-
-    // 条件を計算
-    let condition = sin(frameCount * 0.02 + 1) * cos(frameCount * 0.02 + 1) > 0.4;
-
-    noFill();
-    for (let i = 0; i < rows; i++) {
-      for (let j = 0; j < cols; j++) {
-        let index = i * cols + j;
-
-        // 高さを更新（条件を満たす場合のみ変化）
-        if (condition) {
-          heights[index] =
-            noise(points[index].x * 0.1 + 1000,
-                  points[index].y * 0.1 + 1000,
-                  frameCount * 0.1) * 25 - 10;
-        }
-        let z = heights[index];
-
-        // zの高さに応じて色を設定
-        let colorValue = map(z, -100, 150, 0, 255);
-        let pointColor = color(colorValue, 100, 255 - colorValue);
-        let lineColor  = color(colorValue, 100, 255 - colorValue);
-
-        // 点を描画
-        let current = points[index];
-        strokeWeight(1);
-        point(current.x, current.y, z);
-
-        // 上の点と線を結ぶ
-        if (i > 0) {
-          let aboveIndex = (i - 1) * cols + j;
-          let above = points[aboveIndex];
-          let aboveZ = heights[aboveIndex];
-          strokeWeight(0.2);
-          line(current.x, current.y, z, above.x, above.y, aboveZ);
-        }
-        // 左の点と線を結ぶ
-        if (j > 0) {
-          let leftIndex = i * cols + (j - 1);
-          let left = points[leftIndex];
-          let leftZ = heights[leftIndex];
-          strokeWeight(0.2);
-          line(current.x, current.y, z, left.x, left.y, leftZ);
-        }
-      }
-    }
-  }
-  </script>
+}
+</script>
 
 </body>
 </html>
