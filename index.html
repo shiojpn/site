@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <title>shiozaki</title>
+  <style>
+    /* 全体リセット */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: sans-serif;
+      overflow-y: scroll;
+    }
+    /* 固定テキスト（リンク付き） */
+    #fixed-text {
+      position: fixed;
+      top: 1vw;
+      left: 1vw;
+      font-size: 1.5vw;
+      font-weight: bold;
+      color: #007e5d;
+      padding: 0.8vw 1.6vw;
+      border-radius: 0.6vw;
+      z-index: 100;
+    }
+    #fixed-text a {
+      color: inherit;
+      text-decoration: none;
+    }
+    #fixed-text a:hover {
+      text-decoration: underline;
+    }
+
+    /* ギャラリー */
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 8vh 0;
+    }
+    .gallery img {
+      width: 8vw;
+      max-width: 300px;
+      height: auto;
+      margin: 3vh 0;
+      border: 1.5px solid transparent;
+      border-radius: 0px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .gallery img:hover {
+      border-color: #007e5d;
+    }
+
+    /* ポップアップ */
+    #popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 0, 0, 0.5);
+      z-index: 200;
+      font-family: 'ZNVT15', sans-serif;
+
+    }
+    #popup.visible { display: flex; }
+    #popup .content {
+      background: #f8c828;
+      padding: 20px;
+      border-radius: 0px;
+      max-width: 50%;
+      max-height: 90%;
+      overflow: auto;
+      text-align: center;
+      position: relative;
+    }
+    #popup img {
+      display: block;
+      max-width: 60%;
+      margin: 0 auto 12px; 
+      height: auto;
+    }
+    #popup h2 {
+      margin-bottom: 8px;
+      color: #007e5d;
+    }
+    #popup p {
+      margin-bottom: 0;
+      color: #007e5d;
+    }
+    #popup .close {
+      position: absolute;
+      top: 8px; right: 12px;
+      font-size: 1.5rem;
+      color: #007e5d;
+      cursor: pointer;
+    }
+
+    /* 通常テキスト */
+    #normal-text {
+      position: fixed;
+      bottom: 1vw;
+      left: 1vw;
+      font-size: 1.5vw;
+      color: #007e5d;
+      padding: 0.6vw 1vw;
+      border-radius: 0.4vw;
+      z-index: 50;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 固定テキスト（リンク） -->
+  <div id="fixed-text">
+    <a href="https://example.com" target="_blank">X (Twitter)</a>
+  </div>
+
+  <!-- 縦スクロールギャラリー -->
+  <div class="gallery">
+    <img src="assets/img5.jpg"
+         data-link="https://www.fxhash.xyz/project/systematic-mess"
+         data-title="Systematic Mess"
+         data-desc=
+         "This is a visually stimulating art piece that weaves together geometric patterns and numerical arrangements. The black-and-white contrasts are striking, and the intricate shapes and symbols are interspersed within a mesh-like grid. It is as if fragments of data are expressed as abstract beauty."
+         alt="Image 1">
+    <img src="assets/gif1.gif"
+         data-link="https://opensea.io/ja/collection/leikatsura"
+         data-title="Lei Katsura"
+         data-desc="This is an NFT collection. Lei Katsura is a girl dressed in colorful clothes and hairstyle.
+         Please enjoy the random outfits."
+         alt="gif 1">
+    <img src="assets/img3.jpg"
+         data-link=""
+         data-title="Images"
+         data-desc="Coming soon"
+         alt="image 2">
+    <img src="assets/img4.jpg"
+         data-link="https://www.fxhash.xyz/project/shape-1"
+         data-title="Shape"
+         data-desc="This work is generative art with a deep appeal, evoking a variety of emotions and interpretations in the viewer, much like art that abstractly expresses natural phenomena and the movements of the universe."
+         alt="image 3">
+    
+  </div>
+
+  <!-- ポップアップ -->
+  <div id="popup">
+    <div class="content">
+      <span class="close">&times;</span>
+      <h2 id="popup-title"></h2>
+      <img id="popup-img" src="" alt="">
+      <p id="popup-desc"></p>
+    </div>
+  </div>
+
+  <!-- 通常テキスト -->
+  <div id="normal-text">
+    Creative coder / Illustrator  <br>
+    The Degree of Master of Information Science and Technology
+  </div>
+
+  <script>
+    const galleryImgs = document.querySelectorAll('.gallery img');
+    const popup       = document.getElementById('popup');
+    const popImg      = document.getElementById('popup-img');
+    const popTitle    = document.getElementById('popup-title');
+    const popDesc     = document.getElementById('popup-desc');
+    const popClose    = document.querySelector('#popup .close');
+
+    galleryImgs.forEach(img => {
+      img.addEventListener('click', () => {
+        popImg.src = img.src;
+        popTitle.innerHTML = `<a href="${img.dataset.link}" target="_blank">${img.dataset.title}</a>`;
+        popDesc.textContent = img.dataset.desc;
+        popup.classList.add('visible');
+      });
+    });
+
+    popClose.addEventListener('click', () => {
+      popup.classList.remove('visible');
+    });
+    popup.addEventListener('click', e => {
+      if (e.target === popup) popup.classList.remove('visible');
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') popup.classList.remove('visible');
+    });
+  </script>
+
+<!-- p5.js main library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+<script>
+let points = [];
+let heights = [];
+let rows = 10;
+let cols = 10;
+let spacing = 4;
+
+function setup() {
+  let canvas = createCanvas(60, 60, WEBGL);
+  canvas.parent('canvas-container');
+
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let x = (j - (cols - 1) / 2) * spacing; 
+      let y = (i - (rows - 1) / 2) * spacing; 
+      points.push(createVector(x, y, 0)); 
+      heights.push(0); 
+    }
+  }
+}
+
+function draw() {
+  background('#f8c828');
+  orbitControl();
+  rotateX(PI / 3);
+  rotateZ(frameCount * 0.004);
+
+  let condition = sin(frameCount * 0.02 + 1) * cos(frameCount * 0.02 + 1) > 0.4;
+
+  noFill();
+  stroke('#007e5d');
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      let index = i * cols + j;
+      if (condition) {
+        heights[index] =
+          noise(points[index].x * 0.1 + 1000,
+                points[index].y * 0.1 + 1000,
+                frameCount * 0.1) * 25 - 10;
+      }
+      let z = heights[index];
+      strokeWeight(1);
+      point(points[index].x, points[index].y, z);
+
+      if (i > 0) {
+        let aboveIndex = (i - 1) * cols + j;
+        strokeWeight(0.2);
+        line(points[index].x, points[index].y, z,
+             points[aboveIndex].x, points[aboveIndex].y, heights[aboveIndex]);
+      }
+      if (j > 0) {
+        let leftIndex = i * cols + (j - 1);
+        strokeWeight(0.2);
+        line(points[index].x, points[index].y, z,
+             points[leftIndex].x, points[leftIndex].y, heights[leftIndex]);
+      }
+    }
+  }
+}
+</script>
+
+
+<!-- p5.js のキャンバスを表示するための容器 -->
+<div id="canvas-container" style="position: fixed; top: 0.5vw; right: 52%; width: 0vw; height: 0vw; z-index: 0;"></div>
+
+</body>
+</html>

@@ -1,0 +1,101 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #f8c828;
+  }
+  #world {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    cursor: grab;
+  }
+  #world:active {
+    cursor: grabbing;
+  }
+  
+  /* ===== Popup ===== */
+  #popup.hidden { display: none; }
+  
+  #popup {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(2px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+  }
+  
+  .popup-inner {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    background: #111;
+    color: #eee;
+    padding: 16px 24px 24px;
+    box-sizing: border-box;
+    overflow: auto;
+    border-radius: 8px;
+  }
+  
+  #popup-img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin-bottom: 12px;
+    background: #222;
+  }
+
+    /* ポップアップのタイトル文字色を赤くする例 */
+  #popup-title {
+    color: #007e5d;        /* h2 自体のテキスト色 */
+  }
+
+  /* さらにリンク（<a>）部分の色を指定する場合 */
+  #popup-title a {
+    color: #007e5d;        /* リンク色 */
+    text-decoration: none; /* 好みで下線外す */
+  }
+  #popup-title a:hover {
+    color: #007e5d;        /* ホバー時に少し濃く */
+    text-decoration: underline;
+  }
+  
+  #popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    border: none;
+    background: #333;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    cursor: pointer;
+  }
+  #popup-close:hover { background: #555; }
+
+
+  /* style.css の冒頭などに */
+@font-face {
+    font-family: 'ZNVT15';
+    src: 
+      url('assets/ZNVT15/ZNVT15.woff2') format('woff2'),
+      url('assets/ZNVT15/ZNVT15.woff')  format('woff'),
+      url('assets/ZNVT15/ZNVT15.ttf')   format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    /* 必要なら font-display も指定できます */
+    font-display: swap;
+  }
+
+  #fixed-text {
+    font-family: 'ZNVT15', sans-serif;
+  }
+  #normal-text {
+    font-family: 'ZNVT15', sans-serif;
+  }
