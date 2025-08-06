@@ -17,7 +17,7 @@
       position: fixed;
       top: 1vw;
       left: 1vw;
-      font-size: 1.5vw;
+      font-size: max(1.5vw, 15px);
       font-weight: bold;
       color: #007e5d;
       padding: 0.8vw 1.6vw;
@@ -40,14 +40,15 @@
       padding: 8vh 0;
     }
     .gallery img {
-      width: 8vw;
+      width: max(8vw, 80px);
       max-width: 300px;
       height: auto;
-      margin: 3vh 0;
+      margin: max(2vw, 20px);
       border: 1.5px solid transparent;
       border-radius: 0px;
       cursor: pointer;
       transition: border-color 0.2s;
+      z-index: 100;
     }
     .gallery img:hover {
       border-color: #007e5d;
@@ -104,7 +105,7 @@
       position: fixed;
       bottom: 1vw;
       left: 1vw;
-      font-size: 1.5vw;
+      font-size: max(1.5vw, 15px);
       color: #007e5d;
       padding: 0.6vw 1vw;
       border-radius: 0.4vw;
@@ -255,7 +256,15 @@ function draw() {
 
 
 <!-- p5.js のキャンバスを表示するための容器 -->
-<div id="canvas-container" style="position: fixed; top: 0.5vw; right: 52%; width: 0vw; height: 0vw; z-index: 0;"></div>
+<div id="canvas-container" style="
+position: 
+fixed; 
+top: 0.5vw;
+left: 50%;
+transform: translate(-50%, 0%);
+
+z-index: 0;
+"></div>
 
 </body>
 </html>
